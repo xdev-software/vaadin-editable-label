@@ -2,6 +2,7 @@ package software.xdev.vaadin.editable_label.example;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -33,12 +34,9 @@ public class HomeView extends Composite<VerticalLayout>
 		this.getContent().add(
 			this.createEditableLabelPresenter("TextArea", new EditableLabelTextArea())
 		);
-		final EditableLabelTextField editableLabelTextField = new EditableLabelTextField();
-		editableLabelTextField.addValueChangeListener(l -> System.out.println(
-			"newValue:" + l.getValue() + " oldValue:" + l.getOldValue()));
 		
 		this.getContent().add(
-			this.createEditableLabelPresenter("TextField", editableLabelTextField)
+			this.createEditableLabelPresenter("TextField", new EditableLabelTextField())
 		);
 		this.getContent().add(
 			this.createEditableLabelPresenter("BigDecimalField", new EditableLabelBigDecimalField())
@@ -47,11 +45,15 @@ public class HomeView extends Composite<VerticalLayout>
 		this.getContent().setHeightFull();
 	}
 	
-	private Component createEditableLabelPresenter(final String name, final Component editableLabelComponent)
+	private Component createEditableLabelPresenter(final String name, final HasValue<?, ?> editableLabelComponent)
 	{
 		final VerticalLayout vl = new VerticalLayout();
 		vl.add(new Label(name));
-		vl.add(editableLabelComponent);
+		vl.add((Component)editableLabelComponent);
+		
+		editableLabelComponent.addValueChangeListener(l -> System.out.println(
+			"Component " + name + " newValue:" + l.getValue() + " oldValue:" + l.getOldValue()));
+		
 		return vl;
 	}
 }
