@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.xdev-software</groupId>
-	<artifactId>vaadin-addon-template-root</artifactId>
+	<artifactId>vaadin-editable-label-root</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -15,8 +15,8 @@
 	</organization>
 
 	<modules>
-		<module>vaadin-addon-template</module>
-		<module>vaadin-addon-template-demo</module>
+		<module>vaadin-editable-label</module>
+		<module>vaadin-editable-label-demo</module>
 	</modules>
 
 	<licenses>
