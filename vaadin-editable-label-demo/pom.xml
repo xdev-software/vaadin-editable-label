@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.xdev-software</groupId>
-	<artifactId>vaadin-addon-template-demo</artifactId>
+	<artifactId>vaadin-editable-label-demo</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<inceptionYear>2022</inceptionYear>
+	<name>Editable labels for Vaadin - Demo</name>
+
+	<inceptionYear>2023</inceptionYear>
 
 	<organization>
 		<name>XDEV Software</name>
@@ -56,7 +58,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.xdev-software</groupId>
-			<artifactId>vaadin-addon-template</artifactId>
+			<artifactId>vaadin-editable-label</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

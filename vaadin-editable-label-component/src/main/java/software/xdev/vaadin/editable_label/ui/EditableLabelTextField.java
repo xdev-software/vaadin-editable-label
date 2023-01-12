@@ -1,8 +1,27 @@
 package software.xdev.vaadin.editable_label.ui;
 
+/*-
+ * #%L
+ * Editable labels for Vaadin
+ * %%
+ * Copyright (C) 2023 XDEV Software
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import java.beans.Beans;
 
-import com.flowingcode.vaadin.addons.ironicons.IronIcons;
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.BlurNotifier.BlurEvent;
 import com.vaadin.flow.component.ClickEvent;
@@ -23,14 +42,19 @@ import com.vaadin.flow.function.SerializableConsumer;
 import com.vaadin.flow.shared.Registration;
 
 
-public class EditableLabelTextfield<C extends Object> extends HorizontalLayout
-	implements HasValue<ComponentValueChangeEvent<EditableLabelTextfield, String>, String>
+/**
+ * Offers a simple Vaadin label which can be edited as a {@link TextField}.
+ *
+ * @author JohannesRabauer
+ */
+public class EditableLabelTextField<C extends Object> extends HorizontalLayout
+	implements HasValue<ComponentValueChangeEvent<EditableLabelTextField, String>, String>
 {
 	private SerializableConsumer<C> onClick = null;
 	private boolean clickable;
 	private boolean readOnly = false;
 	
-	public EditableLabelTextfield()
+	public EditableLabelTextField()
 	{
 		super();
 		this.initUI();
@@ -111,7 +135,7 @@ public class EditableLabelTextfield<C extends Object> extends HorizontalLayout
 	
 	@Override
 	public Registration addValueChangeListener(
-		final ValueChangeListener<? super ComponentValueChangeEvent<EditableLabelTextfield, String>> listener)
+		final ValueChangeListener<? super ComponentValueChangeEvent<EditableLabelTextField, String>> listener)
 	{
 		return this.textField.addValueChangeListener(
 			(ValueChangeListener<? super ComponentValueChangeEvent<TextField, String>>)listener);
@@ -214,7 +238,7 @@ public class EditableLabelTextfield<C extends Object> extends HorizontalLayout
 		this.label.setText(this.textField.getValue());
 		System.out.println(this.label.getText());
 		
-		UIUtils.getNextParent(this, HasGlobalSave.class).save();
+		// UIUtils.getNextParent(this, HasGlobalSave.class).save();
 		System.out.println("Store item");
 		if(this.textField.getValue().isBlank())
 		{
@@ -292,7 +316,7 @@ public class EditableLabelTextfield<C extends Object> extends HorizontalLayout
 		final ShortcutRegistration btnSaveShortcut = this.btnSave.addClickShortcut(Key.ENTER);
 		btnSaveShortcut.setBrowserDefaultAllowed(true);
 		btnSaveShortcut.setEventPropagationAllowed(false);
-		this.btnSave.setIcon(IronIcons.SAVE.create());
+		this.btnSave.setIcon(VaadinIcon.DISC.create());
 		this.btnClose.setVisible(false);
 		this.btnClose.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
 		this.btnClose.getStyle().set("margin", "0px");
