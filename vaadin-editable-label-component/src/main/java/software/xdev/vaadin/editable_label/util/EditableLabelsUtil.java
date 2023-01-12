@@ -23,7 +23,12 @@ package software.xdev.vaadin.editable_label.util;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.shared.Registration;
 
 
 public class EditableLabelsUtil
@@ -46,4 +51,18 @@ public class EditableLabelsUtil
 		
 		return null;
 	}
+	
+	public static <C extends Component, V> Registration addValueChangeListener(
+		final Component component,
+		final HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<C,
+			V>> listener)
+	{
+		final ComponentEventListener componentListener = (event) -> {
+			final AbstractField.ComponentValueChangeEvent<C, V> valueChangeEvent =
+				(AbstractField.ComponentValueChangeEvent)event;
+			listener.valueChanged(valueChangeEvent);
+		};
+		return ComponentUtil.addListener(component, AbstractField.ComponentValueChangeEvent.class, componentListener);
+	}
+	
 }

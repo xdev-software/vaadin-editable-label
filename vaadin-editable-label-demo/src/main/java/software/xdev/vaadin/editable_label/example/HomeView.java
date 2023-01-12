@@ -33,8 +33,12 @@ public class HomeView extends Composite<VerticalLayout>
 		this.getContent().add(
 			this.createEditableLabelPresenter("TextArea", new EditableLabelTextArea())
 		);
+		final EditableLabelTextField editableLabelTextField = new EditableLabelTextField();
+		editableLabelTextField.addValueChangeListener(l -> System.out.println(
+			"newValue:" + l.getValue() + " oldValue:" + l.getOldValue()));
+		
 		this.getContent().add(
-			this.createEditableLabelPresenter("TextField", new EditableLabelTextField())
+			this.createEditableLabelPresenter("TextField", editableLabelTextField)
 		);
 		this.getContent().add(
 			this.createEditableLabelPresenter("BigDecimalField", new EditableLabelBigDecimalField())
