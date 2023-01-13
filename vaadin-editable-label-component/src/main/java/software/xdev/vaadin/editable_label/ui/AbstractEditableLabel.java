@@ -59,9 +59,15 @@ public abstract class AbstractEditableLabel
 	
 	public AbstractEditableLabel(final EDIT editor)
 	{
+		this(editor, " - ");
+		
+	}
+	
+	public AbstractEditableLabel(final EDIT editor, final String emptyValue)
+	{
 		super();
 		this.editor = editor;
-		this.emptyValue = " - ";
+		this.emptyValue = emptyValue;
 		this.initUI(
 			VaadinIcon.PENCIL.create(),
 			VaadinIcon.CHECK.create(),

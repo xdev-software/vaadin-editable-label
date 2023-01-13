@@ -44,6 +44,25 @@ public class EditableLabelTextField<C extends Object>
 		super(new TextField());
 	}
 	
+	/**
+	 * @param value that is at first displayed in the label
+	 */
+	public EditableLabelTextField(final String value)
+	{
+		this();
+		this.setValue(value);
+	}
+	
+	/**
+	 * @param value      that is at first displayed in the label
+	 * @param emptyValue that is displayed if no value is defined (at any time, now or in the future)
+	 */
+	public EditableLabelTextField(final String value, final String emptyValue)
+	{
+		super(new TextField(), emptyValue);
+		this.setValue(value);
+	}
+	
 	@Override
 	public void setValue(final String value)
 	{

@@ -43,6 +43,25 @@ public class EditableLabelTextArea
 		super(new TextArea());
 	}
 	
+	/**
+	 * @param value that is at first displayed in the label
+	 */
+	public EditableLabelTextArea(final String value)
+	{
+		this();
+		this.setValue(value);
+	}
+	
+	/**
+	 * @param value      that is at first displayed in the label
+	 * @param emptyValue that is displayed if no value is defined (at any time, now or in the future)
+	 */
+	public EditableLabelTextArea(final String value, final String emptyValue)
+	{
+		super(new TextArea(), emptyValue);
+		this.setValue(value);
+	}
+	
 	@Override
 	public void setValue(final String value)
 	{

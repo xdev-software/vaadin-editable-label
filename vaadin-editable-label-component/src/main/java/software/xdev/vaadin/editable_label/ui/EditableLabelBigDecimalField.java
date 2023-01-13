@@ -31,7 +31,6 @@ import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.textfield.BigDecimalField;
-import com.vaadin.flow.component.textfield.TextFieldVariant;
 
 
 /**
@@ -44,17 +43,41 @@ public class EditableLabelBigDecimalField
 {
 	
 	private BigDecimal value;
-	private NumberFormat currencyFormatter;
+	private NumberFormat numberFormatter;
 	
 	public EditableLabelBigDecimalField()
 	{
 		super(new BigDecimalField());
 	}
 	
-	public EditableLabelBigDecimalField(final NumberFormat currencyFormatter)
+	public EditableLabelBigDecimalField(final NumberFormat numberFormatter)
 	{
 		this();
-		Objects.requireNonNull(this.currencyFormatter = currencyFormatter);
+		Objects.requireNonNull(this.numberFormatter = numberFormatter);
+	}
+	
+	public EditableLabelBigDecimalField(final BigDecimal value, final NumberFormat numberFormatter)
+	{
+		this(numberFormatter);
+		this.setValue(value);
+	}
+	
+	public EditableLabelBigDecimalField(final BigDecimal value)
+	{
+		this();
+		this.setValue(value);
+	}
+	
+	public EditableLabelBigDecimalField(final Double value, final NumberFormat numberFormatter)
+	{
+		this(numberFormatter);
+		this.setValue(new BigDecimal(value));
+	}
+	
+	public EditableLabelBigDecimalField(final Double value)
+	{
+		this();
+		this.setValue(new BigDecimal(value));
 	}
 	
 	@Override
@@ -66,9 +89,9 @@ public class EditableLabelBigDecimalField
 		}
 		else
 		{
-			if(this.currencyFormatter != null)
+			if(this.numberFormatter != null)
 			{
-				this.setLabelText(this.currencyFormatter.format(value));
+				this.setLabelText(this.numberFormatter.format(value));
 			}
 			else
 			{
@@ -86,9 +109,9 @@ public class EditableLabelBigDecimalField
 		return this.value;
 	}
 	
-	public void setCurrency(final NumberFormat currencyFormatter)
+	public void setCurrency(final NumberFormat numberFormatter)
 	{
-		this.currencyFormatter = currencyFormatter;
+		this.numberFormatter = numberFormatter;
 	}
 	
 	@Override
@@ -151,13 +174,7 @@ public class EditableLabelBigDecimalField
 	)
 	{
 		super.initUI(editIcon, saveIcon, abortIcon);
-		
 		this.getEditor().setAutoselect(true);
-		this.getEditor().addThemeVariants(TextFieldVariant.LUMO_SMALL);
-		
-		this.getEditor().setWidthFull();
-		this.getEditor().setHeight(null);
-		
 		this.getEditor().addBlurListener(this::textField_onBlur);
 	}
 }

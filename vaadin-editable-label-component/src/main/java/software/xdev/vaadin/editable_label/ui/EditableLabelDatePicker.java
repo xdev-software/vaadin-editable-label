@@ -23,7 +23,6 @@ package software.xdev.vaadin.editable_label.ui;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
@@ -40,38 +39,86 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 public class EditableLabelDatePicker
 	extends AbstractEditableLabel<Object, EditableLabelDatePicker, LocalDate, DatePicker>
 {
+	public final static String DEFAULT_DATE_TIME_FORMAT_PATTERN = "dd.MM.yyyy";
 	private final DateTimeFormatter dateTimeFormatter;
+	private final String dateTimeFormatPattern;
 	private LocalDate localDate;
 	
-	/**
-	 *
-	 */
 	public EditableLabelDatePicker()
 	{
+		this(DEFAULT_DATE_TIME_FORMAT_PATTERN);
+	}
+	
+	/**
+	 * @param dateTimeFormatter used to format the selected date
+	 */
+	public EditableLabelDatePicker(final String dateTimeFormatPattern)
+	{
 		super(new DatePicker());
-		this.dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-		this.getEditor().getElement().setAttribute("theme", "small");
+		this.dateTimeFormatPattern = dateTimeFormatPattern;
+		this.dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormatPattern);
+	}
+	
+	/**
+	 * @param value that is first displayed in the label
+	 */
+	public EditableLabelDatePicker(final LocalDate value)
+	{
+		this();
+		this.setValue(value);
+	}
+	
+	/**
+	 * @param value             that is first displayed in the label
+	 * @param emptyValue        that is displayed if no value is defined (at any time, now or in the future)
+	 * @param dateTimeFormatter used to format the selected date
+	 */
+	public EditableLabelDatePicker(
+		final LocalDate value,
+		final String emptyLabel,
+		final String dateTimeFormatPattern)
+	{
+		super(new DatePicker(), emptyLabel);
+		this.dateTimeFormatPattern = dateTimeFormatPattern;
+		this.dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormatPattern);
+		this.setValue(value);
+	}
+	
+	/**
+	 * @param value             that is first displayed in the label
+	 * @param dateTimeFormatter used to format the selected date
+	 */
+	public EditableLabelDatePicker(final LocalDate value, final String dateTimeFormatPattern)
+	{
+		this(dateTimeFormatPattern);
+		this.setValue(value);
 	}
 	
 	@Override
 	public void setValue(final LocalDate value)
 	{
+		final LocalDate oldValue = this.localDate;
+		this.localDate = value;
+		this.getEditor().setValue(value);
+		
 		if(value == null)
 		{
 			this.setLabelText(this.emptyValue);
 		}
 		else
 		{
-			this.localDate = value;
-			this.setLabelText(this.localDate.format(this.dateTimeFormatter));
-			this.getEditor().setValue(value);
+			final DatePicker.DatePickerI18n datePickerI18n = new DatePicker.DatePickerI18n();
+			datePickerI18n.setDateFormat(this.dateTimeFormatPattern);
+			this.getEditor().setI18n(datePickerI18n);
+			this.setLabelText(this.dateTimeFormatter.format(this.getEditor().getValue()));
 		}
+		this.fireChangedEvent(oldValue);
 	}
 	
 	@Override
 	public LocalDate getValue()
 	{
-		return this.getEditor().getValue();
+		return this.localDate;
 	}
 	
 	@Override
@@ -109,50 +156,14 @@ public class EditableLabelDatePicker
 	@Override
 	protected void btnSave_onClick(final ClickEvent<Button> event)
 	{
-		final LocalDate oldValue = this.getOldValue();
-		final LocalDate selectedDate = this.getEditor().getValue();
-		if(selectedDate != null)
-		{
-			this.setLabelText(selectedDate.format(this.dateTimeFormatter));
-			this.localDate = selectedDate;
-		}
-		
-		this.fireChangedEvent(oldValue);
-		
+		this.setValue(this.getEditor().getValue());
 		this.disableEditMode();
-	}
-	
-	private LocalDate getOldValue()
-	{
-		if(this.getLabelText() == null || this.getLabelText().isBlank())
-		{
-			return null;
-		}
-		else
-		{
-			try
-			{
-				this.dateTimeFormatter.parse(this.getLabelText());
-				return LocalDate.parse(this.getLabelText(), this.dateTimeFormatter);
-			}
-			catch(final Exception e)
-			{
-				// There is no clean way to check if the String is a parsable Date.
-				// So if there is an exception the String is declared as not-parsable.
-				return null;
-			}
-		}
 	}
 	
 	@Override
 	protected void btnClose_onClick(final ClickEvent<Button> event)
 	{
 		this.disableEditMode();
-	}
-	
-	private void datePicker_valueChanged(final ComponentValueChangeEvent<DatePicker, LocalDate> event)
-	{
-		this.localDate = this.getEditor().getValue();
 	}
 	
 	@Override
@@ -169,8 +180,6 @@ public class EditableLabelDatePicker
 		this.getEditor().setSizeUndefined();
 		
 		this.setHeight("44px");
-		
-		this.getEditor().addValueChangeListener(this::datePicker_valueChanged);
 	}
 	
 }

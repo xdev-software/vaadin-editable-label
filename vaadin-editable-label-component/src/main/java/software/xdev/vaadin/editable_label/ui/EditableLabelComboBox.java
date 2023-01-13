@@ -23,14 +23,10 @@ package software.xdev.vaadin.editable_label.ui;
 import java.util.Collection;
 
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.ComponentEvent;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.ItemLabelGenerator;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.data.binder.HasDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 
 
@@ -41,7 +37,6 @@ import com.vaadin.flow.data.provider.DataProvider;
  */
 public class EditableLabelComboBox<T>
 	extends AbstractEditableLabel<Object, EditableLabelComboBox, T, ComboBox<T>>
-	implements HasDataProvider<T>
 {
 	private T value;
 	
@@ -50,22 +45,53 @@ public class EditableLabelComboBox<T>
 		super(new ComboBox<>());
 	}
 	
+	public EditableLabelComboBox(final T selectedValue, final Collection<T> selectableItems)
+	{
+		this();
+		this.setItems(selectableItems);
+		this.setValue(selectedValue);
+	}
+	
+	public EditableLabelComboBox(final T selectedValue, final T... selectableItems)
+	{
+		this();
+		this.setItems(selectableItems);
+		this.setValue(selectedValue);
+	}
+	
+	public EditableLabelComboBox(final T selectedValue, final String emptyValue, final Collection<T> selectableItems)
+	{
+		super(new ComboBox<>(), emptyValue);
+		this.setItems(selectableItems);
+		this.setValue(selectedValue);
+	}
+	
+	public EditableLabelComboBox(final T selectedValue, final String emptyValue, final T... selectableItems)
+	{
+		super(new ComboBox<>(), emptyValue);
+		this.setItems(selectableItems);
+		this.setValue(selectedValue);
+	}
+	
 	@Override
 	public void setValue(final T value)
 	{
+		final T oldValue = this.value;
+		this.value = value;
+		
 		if(value == null)
 		{
 			this.setLabelText(this.emptyValue);
 		}
 		else
 		{
-			this.value = value;
 			this.setLabelText(this.getEditor().getItemLabelGenerator().apply(this.value));
 			if(this.getLabelText().isBlank())
 			{
 				this.setLabelText(this.emptyValue);
 			}
 		}
+		this.fireChangedEvent(oldValue);
 	}
 	
 	@Override
@@ -91,41 +117,20 @@ public class EditableLabelComboBox<T>
 	{
 		this.getEditor().setItemLabelGenerator(itemLabelGenerator);
 	}
-	
-	/**
-	 * Event handler delegate method for the {@link Button} {@link #btnEdit}.
-	 *
-	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
-	 * @see ComponentEventListener#onComponentEvent(ComponentEvent)
-	 */
+
 	@Override
 	protected void btnEdit_onClick(final ClickEvent<Button> event)
 	{
 		this.getEditor().setValue(this.value);
 		this.getEditor().focus();
+		this.getEditor().setOpened(true);
 		this.enableEditMode();
 	}
-	
-	/**
-	 * Event handler delegate method for the {@link Button} {@link #btnSave}.
-	 *
-	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
-	 * @see ComponentEventListener#onComponentEvent(ComponentEvent)
-	 */
+
 	@Override
 	protected void btnSave_onClick(final ClickEvent<Button> event)
 	{
-		final T oldValue = this.value;
-		this.value = this.getEditor().getValue();
-		this.setLabelText(
-			this.getEditor().getItemLabelGenerator().apply(this.value)
-		);
-		this.fireChangedEvent(oldValue);
-		if(this.getLabelText().isBlank())
-		{
-			this.setLabelText(this.emptyValue);
-		}
-		
+		this.setValue(this.value);
 		this.disableEditMode();
 	}
 	
@@ -135,36 +140,16 @@ public class EditableLabelComboBox<T>
 		this.disableEditMode();
 	}
 	
-	@Override
-	protected void initUI(
-		final Component editIcon,
-		final Component saveIcon,
-		final Component abortIcon
-	)
+	public void setDataProvider(final DataProvider<T, String> dataProvider)
 	{
-		super.initUI(editIcon, saveIcon, abortIcon);
-		// this.getEditor().setItemLabelGenerator(EditableLabelComboBox.NonNull(CaptionUtils::resolveCaption));
-		this.getEditor().setWidthFull();
-		this.getEditor().getElement().setAttribute("theme", "small");
-		this.getEditor().addValueChangeListener(l ->
-		{
-			this.value = l.getValue();
-		});
+		this.getEditor().setItems(dataProvider);
 	}
 	
-	@Override
-	public void setDataProvider(final DataProvider<T, ?> dataProvider)
-	{
-		// this.getEditor().setItems(dataProvider);
-	}
-	
-	@Override
 	public void setItems(final Collection<T> items)
 	{
 		this.getEditor().setItems(items);
 	}
 	
-	@Override
 	public void setItems(final T... items)
 	{
 		this.getEditor().setItems(items);

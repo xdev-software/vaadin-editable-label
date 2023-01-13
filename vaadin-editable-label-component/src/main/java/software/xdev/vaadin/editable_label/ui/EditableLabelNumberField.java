@@ -20,7 +20,6 @@ package software.xdev.vaadin.editable_label.ui;
  * #L%
  */
 
-import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.BlurNotifier.BlurEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
@@ -46,19 +45,40 @@ public class EditableLabelNumberField
 		super(new NumberField());
 	}
 	
+	/**
+	 * @param value that is first displayed in the label
+	 */
+	public EditableLabelNumberField(final Double value)
+	{
+		this();
+		this.setValue(value);
+	}
+	
+	/**
+	 * @param value      that is first displayed in the label
+	 * @param emptyValue that is displayed if no value is defined (at any time, now or in the future)
+	 */
+	public EditableLabelNumberField(final Double value, final String emptyLabel)
+	{
+		super(new NumberField(), emptyLabel);
+		this.setValue(value);
+	}
+	
 	@Override
 	public void setValue(final Double value)
 	{
+		final Double oldValue = this.value;
+		this.value = value;
 		if(value == null)
 		{
 			this.setLabelText(this.emptyValue);
 		}
 		else
 		{
-			this.value = value;
 			this.setLabelText(value.toString());
 			this.getEditor().setValue(value);
 		}
+		this.fireChangedEvent(oldValue);
 	}
 	
 	@Override
@@ -93,17 +113,6 @@ public class EditableLabelNumberField
 		}
 	}
 	
-	/**
-	 * Event handler delegate method for the {@link NumberField} {@link #getEditor()}.
-	 *
-	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
-	 * @see ValueChangeListener#valueChanged(ValueChangeEvent)
-	 */
-	private void numberField_valueChanged(final ComponentValueChangeEvent<NumberField, Double> event)
-	{
-		this.value = this.getEditor().getValue();
-	}
-	
 	@Override
 	protected void btnEdit_onClick(final ClickEvent<Button> event)
 	{
@@ -115,7 +124,7 @@ public class EditableLabelNumberField
 	@Override
 	protected void btnSave_onClick(final ClickEvent<Button> event)
 	{
-		this.setLabelText(this.getEditor().getValue().toString());
+		this.setValue(this.getEditor().getValue());
 		
 		this.disableEditMode();
 	}
@@ -134,11 +143,8 @@ public class EditableLabelNumberField
 	)
 	{
 		super.initUI(editIcon, saveIcon, abortIcon);
-		this.setDefaultVerticalComponentAlignment(Alignment.CENTER);
 		this.getEditor().setAutoselect(true);
 		this.getEditor().addThemeVariants(TextFieldVariant.LUMO_SMALL);
-		
 		this.getEditor().addBlurListener(this::numberField_onBlur);
-		this.getEditor().addValueChangeListener(this::numberField_valueChanged);
 	}
 }
