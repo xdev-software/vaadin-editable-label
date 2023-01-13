@@ -138,7 +138,6 @@ public class EditableLabelTextField<C extends Object>
 		this.getEditor().setValue(this.emptyValue);
 		this.getEditor().addThemeVariants(TextFieldVariant.LUMO_SMALL);
 		this.getEditor().addBlurListener(this::textField_onBlur);
-		
 		this.getEditor().setSizeUndefined();
 	}
 }
