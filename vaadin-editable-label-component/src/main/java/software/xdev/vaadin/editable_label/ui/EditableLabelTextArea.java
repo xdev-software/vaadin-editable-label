@@ -30,6 +30,11 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextAreaVariant;
 
 
+/**
+ * Offers a simple Vaadin label which can be edited as a {@link TextArea}.
+ *
+ * @author JohannesRabauer
+ */
 public class EditableLabelTextArea
 	extends AbstractEditableLabel<Object, EditableLabelTextArea, String, TextArea>
 {

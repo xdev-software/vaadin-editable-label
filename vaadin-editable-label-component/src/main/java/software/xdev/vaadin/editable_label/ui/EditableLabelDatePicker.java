@@ -32,6 +32,11 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 
 
+/**
+ * Offers a simple Vaadin label which can be edited as a {@link DatePicker}.
+ *
+ * @author JohannesRabauer
+ */
 public class EditableLabelDatePicker
 	extends AbstractEditableLabel<Object, EditableLabelDatePicker, LocalDate, DatePicker>
 {
@@ -53,14 +58,13 @@ public class EditableLabelDatePicker
 	{
 		if(value == null)
 		{
-			this.setLabelText("k.A.");
+			this.setLabelText(this.emptyValue);
 		}
 		else
 		{
 			this.localDate = value;
 			this.setLabelText(this.localDate.format(this.dateTimeFormatter));
 			this.getEditor().setValue(value);
-			
 		}
 	}
 	
