@@ -33,7 +33,7 @@ import com.vaadin.flow.component.datepicker.DatePicker;
  * @author JohannesRabauer
  */
 public class EditableLabelDatePicker
-	extends AbstractEditableLabel<Object, EditableLabelDatePicker, LocalDate, DatePicker>
+	extends AbstractEditableLabel<EditableLabelDatePicker, LocalDate, DatePicker>
 {
 	public final static String DEFAULT_DATE_TIME_FORMAT_PATTERN = "dd.MM.yyyy";
 	private final DateTimeFormatter dateTimeFormatter;
@@ -161,17 +161,4 @@ public class EditableLabelDatePicker
 	{
 		this.disableEditMode();
 	}
-	
-	@Override
-	protected void initUI()
-	{
-		super.initUI();
-		this.setAlignItems(Alignment.START);
-		this.setDefaultVerticalComponentAlignment(Alignment.CENTER);
-		
-		this.getEditor().setSizeUndefined();
-		
-		this.setHeight("44px");
-	}
-	
 }

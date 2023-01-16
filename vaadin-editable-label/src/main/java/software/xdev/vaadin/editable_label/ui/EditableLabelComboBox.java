@@ -33,7 +33,7 @@ import com.vaadin.flow.data.provider.DataProvider;
  * @author JohannesRabauer
  */
 public class EditableLabelComboBox<T>
-	extends AbstractEditableLabel<Object, EditableLabelComboBox<T>, T, ComboBox<T>>
+	extends AbstractEditableLabel<EditableLabelComboBox<T>, T, ComboBox<T>>
 {
 	private T value;
 	
@@ -127,7 +127,7 @@ public class EditableLabelComboBox<T>
 	@Override
 	protected void btnSave_onClick(final ClickEvent<Button> event)
 	{
-		this.setValue(this.value);
+		this.setValue(this.getEditor().getValue());
 		this.disableEditMode();
 	}
 	

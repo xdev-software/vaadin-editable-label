@@ -15,8 +15,6 @@
  */
 package software.xdev.vaadin.editable_label.ui;
 
-
-
 import com.vaadin.flow.component.BlurNotifier.BlurEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEvent;
@@ -32,7 +30,7 @@ import com.vaadin.flow.component.textfield.TextFieldVariant;
  * @author JohannesRabauer
  */
 public class EditableLabelNumberField
-	extends AbstractEditableLabel<Object, EditableLabelNumberField, Double, NumberField>
+	extends AbstractEditableLabel<EditableLabelNumberField, Double, NumberField>
 {
 	private Double value;
 	
@@ -137,6 +135,12 @@ public class EditableLabelNumberField
 		super.initUI();
 		this.getEditor().setAutoselect(true);
 		this.getEditor().addThemeVariants(TextFieldVariant.LUMO_SMALL);
+	}
+	
+	@Override
+	protected void registerListeners()
+	{
+		super.registerListeners();
 		this.getEditor().addBlurListener(this::numberField_onBlur);
 	}
 }

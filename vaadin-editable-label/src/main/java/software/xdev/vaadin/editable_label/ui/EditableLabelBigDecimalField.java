@@ -21,8 +21,6 @@ import java.util.Objects;
 
 import com.vaadin.flow.component.BlurNotifier.BlurEvent;
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEvent;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.textfield.BigDecimalField;
 
@@ -33,7 +31,7 @@ import com.vaadin.flow.component.textfield.BigDecimalField;
  * @author JohannesRabauer
  */
 public class EditableLabelBigDecimalField
-	extends AbstractEditableLabel<Object, EditableLabelBigDecimalField, BigDecimal, BigDecimalField>
+	extends AbstractEditableLabel<EditableLabelBigDecimalField, BigDecimal, BigDecimalField>
 {
 	
 	private BigDecimal value;
@@ -77,6 +75,8 @@ public class EditableLabelBigDecimalField
 	@Override
 	public void setValue(final BigDecimal value)
 	{
+		final BigDecimal oldValue = this.value;
+		this.value = value;
 		if(value == null)
 		{
 			this.setLabelText(this.emptyValue);
@@ -91,10 +91,8 @@ public class EditableLabelBigDecimalField
 			{
 				this.setLabelText(value.toPlainString());
 			}
-			
-			this.getEditor().setValue(value);
 		}
-		this.value = value;
+		this.fireChangedEvent(oldValue);
 	}
 	
 	@Override
@@ -121,10 +119,7 @@ public class EditableLabelBigDecimalField
 	}
 	
 	/**
-	 * Event handler delegate method for the {@link BigDecimalField} {@link #textField}.
-	 *
-	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
-	 * @see ComponentEventListener#onComponentEvent(ComponentEvent)
+	 * Event handler delegate method for the {@link BigDecimalField}.
 	 */
 	private void textField_onBlur(final BlurEvent<BigDecimalField> event)
 	{
@@ -146,10 +141,7 @@ public class EditableLabelBigDecimalField
 	@Override
 	protected void btnSave_onClick(final ClickEvent<Button> event)
 	{
-		final BigDecimal oldValue = this.value;
 		this.setValue(this.getEditor().getValue());
-		
-		this.fireChangedEvent(oldValue);
 		
 		this.disableEditMode();
 	}
@@ -165,6 +157,12 @@ public class EditableLabelBigDecimalField
 	{
 		super.initUI();
 		this.getEditor().setAutoselect(true);
+	}
+	
+	@Override
+	protected void registerListeners()
+	{
+		super.registerListeners();
 		this.getEditor().addBlurListener(this::textField_onBlur);
 	}
 }

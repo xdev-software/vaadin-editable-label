@@ -15,150 +15,141 @@
  */
 package software.xdev.vaadin.editable_label.ui;
 
-
-
-import java.beans.Beans;
-
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.ShortcutRegistration;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.function.SerializableConsumer;
 import com.vaadin.flow.shared.Registration;
 
-import software.xdev.vaadin.editable_label.util.EditableLabelsUtil;
 
-
+/**
+ * Lets the user see a label which is editable. The value and editing-component is defined by the implementing class.
+ *
+ * @param <S> own extending class (self).
+ * @param <V> value type which is handled through this component
+ * @param <C> Vaadin-{@link Component} to edit the value
+ * @author JohannesRabauer
+ */
+@CssImport(EditableLabelStyles.LOCATION)
 public abstract class AbstractEditableLabel
-	<C, SELF extends AbstractEditableLabel<C, SELF, VALUE, EDIT>, VALUE, EDIT extends Component>
+	<S extends AbstractEditableLabel<S, V, C>, V, C extends Component & HasStyle>
 	extends HorizontalLayout
-	implements HasValue<AbstractField.ComponentValueChangeEvent<SELF, VALUE>, VALUE>
+	implements HasValue<AbstractField.ComponentValueChangeEvent<S, V>, V>
 {
-	private final Button btnEdit = new Button();
-	private final Button btnSave = new Button();
-	private final Button btnClose = new Button();
+	private final ButtonForEditableLabel btnEdit = new ButtonForEditableLabel();
+	private final ButtonForEditableLabel btnSave = new ButtonForEditableLabel();
+	private final ButtonForEditableLabel btnClose = new ButtonForEditableLabel();
 	private final Label label = new Label();
 	protected final String emptyValue;
-	private boolean clickable;
 	private boolean readOnly = false;
-	private final EDIT editor;
-	private SerializableConsumer<C> onClick = null;
+	private final C editor;
 	
-	public AbstractEditableLabel(final EDIT editor)
+	/**
+	 * @param editor component to edit the value
+	 */
+	protected AbstractEditableLabel(final C editor)
 	{
 		this(editor, " - ");
-		
 	}
 	
-	public AbstractEditableLabel(final EDIT editor, final String emptyValue)
+	/**
+	 * @param editor     component to edit the value
+	 * @param emptyValue which is displayed in the label if no value is set. Should not be empty or null, because then
+	 *                   the width of the label is zero and therefor hovering the label component is not possible
+	 *                   anymore. Hence, no button is shown.
+	 */
+	protected AbstractEditableLabel(final C editor, final String emptyValue)
 	{
 		super();
 		this.editor = editor;
 		this.emptyValue = emptyValue;
-		this.initUI(
-		);
+		this.initUI();
+		this.registerListeners();
 		
 		this
 			.withEditIcon(VaadinIcon.PENCIL.create())
 			.withSaveIcon(VaadinIcon.CHECK.create())
 			.withCloseIcon(VaadinIcon.CLOSE.create());
-		
-		if(!Beans.isDesignTime())
-		{
-			this.getElement().addEventListener("mouseover", c ->
-			{
-				if(this.editor.isVisible())
-				{
-					this.btnEdit.setVisible(false);
-				}
-				
-				if(this.label.isVisible())
-				{
-					this.btnEdit.setVisible(!this.readOnly);
-				}
-			});
-			
-			this.getElement().addEventListener("mouseout", c ->
-			{
-				this.btnEdit.setVisible(false);
-			});
-			
-		}
 	}
 	
-	public void setClickable(final boolean clickable, final SerializableConsumer<C> onClick)
-	{
-		this.onClick = onClick;
-		this.clickable = clickable;
-		
-		if(this.clickable)
-		{
-			this.label.setVisible(false);
-			this.onClick.accept((C)this.label.getText());
-		}
-		else
-		{
-			this.label.setVisible(true);
-		}
-	}
-	
+	/**
+	 * @return the text shown through the label
+	 */
 	public String getLabelText()
 	{
 		return this.label.getText();
 	}
 	
+	/**
+	 * Sets the displayed value. Does <b>not</b> change the actual value (like {@link #getValue()} contained in the
+	 * EditableLabel-Component.
+	 *
+	 * @param value to display
+	 */
 	public void setLabelText(final String value)
 	{
 		this.label.setText(value);
 	}
 	
-	public EDIT getEditor()
+	/**
+	 * @return the component to edit the value
+	 */
+	public C getEditor()
 	{
 		return this.editor;
 	}
 	
+	/**
+	 * The event is thrown when the edited value is saved, for instance if the Save-Button is clicked or
+	 * {@link #setValue(Object)} is called.
+	 *
+	 * @param listener the listener to add, not <code>null</code>
+	 * @return a handle that can be used for removing the listener
+	 */
 	@Override
 	public Registration addValueChangeListener(
-		final ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<SELF, VALUE>> listener)
+		final ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<S, V>> listener)
 	{
-		return EditableLabelsUtil.addValueChangeListener(this, listener);
+		final ComponentEventListener componentListener = (event) -> {
+			listener.valueChanged((AbstractField.ComponentValueChangeEvent)event);
+		};
+		return ComponentUtil.addListener(this, AbstractField.ComponentValueChangeEvent.class, componentListener);
 	}
 	
+	/**
+	 * Hides and shows all the elements needed to <b>edit</b> the value.
+	 */
 	public void enableEditMode()
 	{
 		this.getEditor().setVisible(true);
-		if(!this.clickable)
-		{
-			this.label.setVisible(false);
-		}
+		this.label.setVisible(false);
 		this.btnEdit.setVisible(false);
 		this.btnSave.setVisible(true);
 		this.btnClose.setVisible(true);
 	}
 	
+	/**
+	 * Hides and shows all the elements needed to <b>show</b> the value.
+	 */
 	public void disableEditMode()
 	{
 		this.getEditor().setVisible(false);
-		if(!this.clickable)
-		{
-			this.label.setVisible(true);
-		}
+		this.label.setVisible(true);
 		this.btnEdit.setVisible(true);
 		this.btnSave.setVisible(false);
 		this.btnClose.setVisible(false);
 	}
 	
-	public void fireChangedEvent(final VALUE oldValue)
+	protected void fireChangedEvent(final V oldValue)
 	{
 		ComponentUtil.fireEvent(
 			this,
@@ -166,69 +157,77 @@ public abstract class AbstractEditableLabel
 		);
 	}
 	
-	public SELF withEditIcon(final Component editIcon)
+	/**
+	 * Changes the icon of the edit button. Default is {@link com.vaadin.flow.component.icon.VaadinIcon#PENCIL}
+	 *
+	 * @param editIcon to show on the edit button
+	 * @return self
+	 */
+	public S withEditIcon(final Component editIcon)
 	{
 		this.btnEdit.setIcon(editIcon);
-		return (SELF)this;
+		return (S)this;
 	}
 	
-	public SELF withSaveIcon(final Component saveIcon)
+	/**
+	 * Changes the icon of the save button. Default is {@link com.vaadin.flow.component.icon.VaadinIcon#CHECK}
+	 *
+	 * @param saveIcon to show on the save button
+	 * @return self
+	 */
+	public S withSaveIcon(final Component saveIcon)
 	{
 		this.btnSave.setIcon(saveIcon);
-		return (SELF)this;
+		return (S)this;
 	}
 	
-	public SELF withCloseIcon(final Component closeIcon)
+	/**
+	 * Changes the icon of the close button. Default is {@link com.vaadin.flow.component.icon.VaadinIcon#CLOSE}
+	 *
+	 * @param closeIcon to show on the close button
+	 * @return self
+	 */
+	public S withCloseIcon(final Component closeIcon)
 	{
 		this.btnClose.setIcon(closeIcon);
-		return (SELF)this;
+		return (S)this;
 	}
 	
 	protected void initUI()
 	{
+		this.addClassName(EditableLabelStyles.CONTAINER);
+		this.setSpacing(false);
+		
 		this.label.setText(this.emptyValue);
-		this.label.setSizeUndefined();
+		this.label.addClassName(EditableLabelStyles.LABEL);
 		
-		this.btnEdit.setVisible(false);
-		this.btnEdit.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
-		this.btnEdit.getStyle().set("margin", "0px");
-		this.btnEdit.getStyle().set("padding", "0px");
-		this.btnEdit.getStyle().set("font-size", "12px");
-		this.btnEdit.setWidth("15px");
-		this.btnEdit.setHeight("var()");
-		this.btnEdit.addClassName("xdev-editable-label-edit-button");
+		this.btnSave.addClickShortcut(Key.ENTER);
 		
-		this.btnSave.setVisible(false);
-		this.btnSave.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
-		this.btnSave.getStyle().set("margin", "0px");
-		this.btnSave.getStyle().set("padding", "0px");
-		this.btnSave.getStyle().set("font-size", "12px");
-		final ShortcutRegistration btnSaveShortcut = this.btnSave.addClickShortcut(Key.ENTER);
-		btnSaveShortcut.setBrowserDefaultAllowed(true);
-		btnSaveShortcut.setEventPropagationAllowed(false);
-		this.btnSave.setWidth("15px");
-		this.btnSave.setHeight("15px");
-		
-		this.btnClose.setVisible(false);
-		this.btnClose.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
-		this.btnClose.getStyle().set("margin", "0px");
-		this.btnClose.getStyle().set("padding", "0px");
-		this.btnClose.getStyle().set("font-size", "12px");
-		final ShortcutRegistration btnCloseShortcut = this.btnClose.addClickShortcut(Key.ESCAPE);
-		btnCloseShortcut.setBrowserDefaultAllowed(true);
-		btnCloseShortcut.setEventPropagationAllowed(false);
-		this.btnClose.setWidth("15px");
-		this.btnClose.setHeight("15px");
+		this.btnClose.addClickShortcut(Key.ESCAPE);
 		
 		this.getEditor().setVisible(false);
+		this.getEditor().addClassName(EditableLabelStyles.EDITOR);
 		
 		this.add(this.label, this.editor, this.btnEdit, this.btnSave, this.btnClose);
-		this.setWidthFull();
-		this.setHeight(null);
-		this.setSpacing(false);
-		this.setDefaultVerticalComponentAlignment(Alignment.CENTER);
-		this.getStyle().set("margin", "0px");
-		this.getStyle().set("padding", "0px");
+		
+	}
+	
+	protected void registerListeners()
+	{
+		this.getElement().addEventListener("mouseover", c ->
+		{
+			if(this.editor.isVisible())
+			{
+				this.btnEdit.setVisible(false);
+			}
+			
+			if(this.label.isVisible())
+			{
+				this.btnEdit.setVisible(!this.readOnly);
+			}
+		});
+		
+		this.getElement().addEventListener("mouseout", c -> this.btnEdit.setVisible(false));
 		
 		this.btnEdit.addClickListener(this::btnEdit_onClick);
 		this.btnSave.addClickListener(this::btnSave_onClick);
@@ -249,25 +248,16 @@ public abstract class AbstractEditableLabel
 	
 	/**
 	 * Event handler delegate method for the {@link Button} {@link #btnEdit}.
-	 *
-	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
-	 * @see ComponentEventListener#onComponentEvent(ComponentEvent)
 	 */
 	protected abstract void btnEdit_onClick(final ClickEvent<Button> event);
 	
 	/**
 	 * Event handler delegate method for the {@link Button} {@link #btnSave}.
-	 *
-	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
-	 * @see ComponentEventListener#onComponentEvent(ComponentEvent)
 	 */
 	protected abstract void btnSave_onClick(final ClickEvent<Button> event);
 	
 	/**
 	 * Event handler delegate method for the {@link Button} {@link #btnClose}.
-	 *
-	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
-	 * @see ComponentEventListener#onComponentEvent(ComponentEvent)
 	 */
 	protected abstract void btnClose_onClick(final ClickEvent<Button> event);
 }

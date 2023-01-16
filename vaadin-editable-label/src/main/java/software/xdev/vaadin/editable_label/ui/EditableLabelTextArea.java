@@ -15,8 +15,6 @@
  */
 package software.xdev.vaadin.editable_label.ui;
 
-
-
 import com.vaadin.flow.component.BlurNotifier.BlurEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEvent;
@@ -32,7 +30,7 @@ import com.vaadin.flow.component.textfield.TextAreaVariant;
  * @author JohannesRabauer
  */
 public class EditableLabelTextArea
-	extends AbstractEditableLabel<Object, EditableLabelTextArea, String, TextArea>
+	extends AbstractEditableLabel<EditableLabelTextArea, String, TextArea>
 {
 	public EditableLabelTextArea()
 	{
@@ -135,7 +133,12 @@ public class EditableLabelTextArea
 		super.initUI();
 		this.getEditor().setAutoselect(true);
 		this.getEditor().addThemeVariants(TextAreaVariant.LUMO_SMALL);
-		this.getEditor().setSizeUndefined();
+	}
+	
+	@Override
+	protected void registerListeners()
+	{
+		super.registerListeners();
 		this.getEditor().addBlurListener(this::textArea_onBlur);
 	}
 }
