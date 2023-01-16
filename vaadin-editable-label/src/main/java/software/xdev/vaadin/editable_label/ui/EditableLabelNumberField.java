@@ -19,69 +19,68 @@ package software.xdev.vaadin.editable_label.ui;
 
 import com.vaadin.flow.component.BlurNotifier.BlurEvent;
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextFieldVariant;
 
 
 /**
- * Offers a simple Vaadin label which can be edited as a {@link TextField}.
+ * Offers a simple Vaadin label which can be edited as a {@link NumberField}.
  *
  * @author JohannesRabauer
  */
-public class EditableLabelTextField<C extends Object>
-	extends AbstractEditableLabel<C, EditableLabelTextField, String, TextField>
+public class EditableLabelNumberField
+	extends AbstractEditableLabel<Object, EditableLabelNumberField, Double, NumberField>
 {
+	private Double value;
 	
-	public EditableLabelTextField()
+	public EditableLabelNumberField()
 	{
-		super(new TextField());
+		super(new NumberField());
 	}
 	
 	/**
-	 * @param value that is at first displayed in the label
+	 * @param value that is first displayed in the label
 	 */
-	public EditableLabelTextField(final String value)
+	public EditableLabelNumberField(final Double value)
 	{
 		this();
 		this.setValue(value);
 	}
 	
 	/**
-	 * @param value      that is at first displayed in the label
+	 * @param value      that is first displayed in the label
 	 * @param emptyValue that is displayed if no value is defined (at any time, now or in the future)
 	 */
-	public EditableLabelTextField(final String value, final String emptyValue)
+	public EditableLabelNumberField(final Double value, final String emptyLabel)
 	{
-		super(new TextField(), emptyValue);
+		super(new NumberField(), emptyLabel);
 		this.setValue(value);
 	}
 	
 	@Override
-	public void setValue(final String value)
+	public void setValue(final Double value)
 	{
-		if(value == null || value.isBlank())
+		final Double oldValue = this.value;
+		this.value = value;
+		if(value == null)
 		{
-			// "Why don't we set the empty value as value?" -
-			// Because then the label is not visible and therefor
-			// nobody can over the label with the mouse to show
-			// the edit-button.
 			this.setLabelText(this.emptyValue);
 		}
 		else
 		{
-			this.setLabelText(value);
+			this.setLabelText(value.toString());
 			this.getEditor().setValue(value);
 		}
+		this.fireChangedEvent(oldValue);
 	}
 	
 	@Override
-	public String getValue()
+	public Double getValue()
 	{
-		return this.getLabelText();
+		return this.value;
 	}
 	
 	@Override
@@ -96,42 +95,32 @@ public class EditableLabelTextField<C extends Object>
 		return this.getEditor().isRequiredIndicatorVisible();
 	}
 	
-	@Override
-	protected void btnEdit_onClick(final ClickEvent<Button> event)
-	{
-		this.getEditor().setValue(this.getLabelText());
-		this.getEditor().setVisible(true);
-		this.getEditor().focus();
-		
-		this.enableEditMode();
-	}
-	
 	/**
-	 * Event handler delegate method for the {@link TextField} {@link #textField}.
+	 * Event handler delegate method for the {@link NumberField} {@link #getEditor()}.
 	 *
 	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
 	 * @see ComponentEventListener#onComponentEvent(ComponentEvent)
 	 */
-	private void textField_onBlur(final BlurEvent<TextField> event)
+	private void numberField_onBlur(final BlurEvent<NumberField> event)
 	{
-		if(this.getLabelText().contentEquals(this.getEditor().getValue()))
+		if(this.getLabelText().contentEquals(this.getEditor().getValue().toString()))
 		{
 			this.disableEditMode();
 		}
 	}
 	
 	@Override
+	protected void btnEdit_onClick(final ClickEvent<Button> event)
+	{
+		this.getEditor().setValue(this.value);
+		this.getEditor().focus();
+		this.enableEditMode();
+	}
+	
+	@Override
 	protected void btnSave_onClick(final ClickEvent<Button> event)
 	{
-		final String oldValue = this.getLabelText();
-		this.setLabelText(this.getEditor().getValue());
-		
-		this.fireChangedEvent(oldValue);
-		
-		if(this.getEditor().getValue().isBlank())
-		{
-			this.setLabelText(this.emptyValue);
-		}
+		this.setValue(this.getEditor().getValue());
 		
 		this.disableEditMode();
 	}
@@ -143,17 +132,11 @@ public class EditableLabelTextField<C extends Object>
 	}
 	
 	@Override
-	protected void initUI(
-		final Component editIcon,
-		final Component saveIcon,
-		final Component abortIcon
-	)
+	protected void initUI()
 	{
-		super.initUI(editIcon, saveIcon, abortIcon);
+		super.initUI();
 		this.getEditor().setAutoselect(true);
-		this.getEditor().setValue(this.emptyValue);
 		this.getEditor().addThemeVariants(TextFieldVariant.LUMO_SMALL);
-		this.getEditor().addBlurListener(this::textField_onBlur);
-		this.getEditor().setSizeUndefined();
+		this.getEditor().addBlurListener(this::numberField_onBlur);
 	}
 }

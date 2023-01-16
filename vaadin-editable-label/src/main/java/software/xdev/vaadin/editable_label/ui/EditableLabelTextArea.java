@@ -19,69 +19,67 @@ package software.xdev.vaadin.editable_label.ui;
 
 import com.vaadin.flow.component.BlurNotifier.BlurEvent;
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.component.textfield.TextFieldVariant;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextAreaVariant;
 
 
 /**
- * Offers a simple Vaadin label which can be edited as a {@link NumberField}.
+ * Offers a simple Vaadin label which can be edited as a {@link TextArea}.
  *
  * @author JohannesRabauer
  */
-public class EditableLabelNumberField
-	extends AbstractEditableLabel<Object, EditableLabelNumberField, Double, NumberField>
+public class EditableLabelTextArea
+	extends AbstractEditableLabel<Object, EditableLabelTextArea, String, TextArea>
 {
-	private Double value;
-	
-	public EditableLabelNumberField()
+	public EditableLabelTextArea()
 	{
-		super(new NumberField());
+		super(new TextArea());
 	}
 	
 	/**
-	 * @param value that is first displayed in the label
+	 * @param value that is at first displayed in the label
 	 */
-	public EditableLabelNumberField(final Double value)
+	public EditableLabelTextArea(final String value)
 	{
 		this();
 		this.setValue(value);
 	}
 	
 	/**
-	 * @param value      that is first displayed in the label
+	 * @param value      that is at first displayed in the label
 	 * @param emptyValue that is displayed if no value is defined (at any time, now or in the future)
 	 */
-	public EditableLabelNumberField(final Double value, final String emptyLabel)
+	public EditableLabelTextArea(final String value, final String emptyValue)
 	{
-		super(new NumberField(), emptyLabel);
+		super(new TextArea(), emptyValue);
 		this.setValue(value);
 	}
 	
 	@Override
-	public void setValue(final Double value)
+	public void setValue(final String value)
 	{
-		final Double oldValue = this.value;
-		this.value = value;
-		if(value == null)
+		if(value == null || value.isBlank())
 		{
+			// "Why don't we set the empty value as value?" -
+			// Because then the label is not visible and therefor
+			// nobody can over the label with the mouse to show
+			// the edit-button.
 			this.setLabelText(this.emptyValue);
 		}
 		else
 		{
-			this.setLabelText(value.toString());
+			this.setLabelText(value);
 			this.getEditor().setValue(value);
 		}
-		this.fireChangedEvent(oldValue);
 	}
 	
 	@Override
-	public Double getValue()
+	public String getValue()
 	{
-		return this.value;
+		return this.getLabelText();
 	}
 	
 	@Override
@@ -97,14 +95,14 @@ public class EditableLabelNumberField
 	}
 	
 	/**
-	 * Event handler delegate method for the {@link NumberField} {@link #getEditor()}.
+	 * Event handler delegate method for the {@link TextArea} {@link #textField}.
 	 *
 	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
 	 * @see ComponentEventListener#onComponentEvent(ComponentEvent)
 	 */
-	private void numberField_onBlur(final BlurEvent<NumberField> event)
+	private void textArea_onBlur(final BlurEvent<TextArea> event)
 	{
-		if(this.getLabelText().contentEquals(this.getEditor().getValue().toString()))
+		if(this.getLabelText().contentEquals(this.getEditor().getValue()))
 		{
 			this.disableEditMode();
 		}
@@ -113,7 +111,7 @@ public class EditableLabelNumberField
 	@Override
 	protected void btnEdit_onClick(final ClickEvent<Button> event)
 	{
-		this.getEditor().setValue(this.value);
+		this.getEditor().setValue(this.getLabelText());
 		this.getEditor().focus();
 		this.enableEditMode();
 	}
@@ -121,8 +119,7 @@ public class EditableLabelNumberField
 	@Override
 	protected void btnSave_onClick(final ClickEvent<Button> event)
 	{
-		this.setValue(this.getEditor().getValue());
-		
+		this.setLabelText(this.getEditor().getValue());
 		this.disableEditMode();
 	}
 	
@@ -133,15 +130,12 @@ public class EditableLabelNumberField
 	}
 	
 	@Override
-	protected void initUI(
-		final Component editIcon,
-		final Component saveIcon,
-		final Component abortIcon
-	)
+	protected void initUI()
 	{
-		super.initUI(editIcon, saveIcon, abortIcon);
+		super.initUI();
 		this.getEditor().setAutoselect(true);
-		this.getEditor().addThemeVariants(TextFieldVariant.LUMO_SMALL);
-		this.getEditor().addBlurListener(this::numberField_onBlur);
+		this.getEditor().addThemeVariants(TextAreaVariant.LUMO_SMALL);
+		this.getEditor().setSizeUndefined();
+		this.getEditor().addBlurListener(this::textArea_onBlur);
 	}
 }

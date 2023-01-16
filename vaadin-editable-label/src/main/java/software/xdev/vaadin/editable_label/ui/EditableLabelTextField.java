@@ -19,31 +19,31 @@ package software.xdev.vaadin.editable_label.ui;
 
 import com.vaadin.flow.component.BlurNotifier.BlurEvent;
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.component.textfield.TextAreaVariant;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.TextFieldVariant;
 
 
 /**
- * Offers a simple Vaadin label which can be edited as a {@link TextArea}.
+ * Offers a simple Vaadin label which can be edited as a {@link TextField}.
  *
  * @author JohannesRabauer
  */
-public class EditableLabelTextArea
-	extends AbstractEditableLabel<Object, EditableLabelTextArea, String, TextArea>
+public class EditableLabelTextField<C extends Object>
+	extends AbstractEditableLabel<C, EditableLabelTextField<C>, String, TextField>
 {
-	public EditableLabelTextArea()
+	
+	public EditableLabelTextField()
 	{
-		super(new TextArea());
+		super(new TextField());
 	}
 	
 	/**
 	 * @param value that is at first displayed in the label
 	 */
-	public EditableLabelTextArea(final String value)
+	public EditableLabelTextField(final String value)
 	{
 		this();
 		this.setValue(value);
@@ -53,9 +53,9 @@ public class EditableLabelTextArea
 	 * @param value      that is at first displayed in the label
 	 * @param emptyValue that is displayed if no value is defined (at any time, now or in the future)
 	 */
-	public EditableLabelTextArea(final String value, final String emptyValue)
+	public EditableLabelTextField(final String value, final String emptyValue)
 	{
-		super(new TextArea(), emptyValue);
+		super(new TextField(), emptyValue);
 		this.setValue(value);
 	}
 	
@@ -95,13 +95,23 @@ public class EditableLabelTextArea
 		return this.getEditor().isRequiredIndicatorVisible();
 	}
 	
+	@Override
+	protected void btnEdit_onClick(final ClickEvent<Button> event)
+	{
+		this.getEditor().setValue(this.getLabelText());
+		this.getEditor().setVisible(true);
+		this.getEditor().focus();
+		
+		this.enableEditMode();
+	}
+	
 	/**
-	 * Event handler delegate method for the {@link TextArea} {@link #textField}.
+	 * Event handler delegate method for the {@link TextField} {@link #textField}.
 	 *
 	 * @eventHandlerDelegate Do NOT delete, used by UI designer!
 	 * @see ComponentEventListener#onComponentEvent(ComponentEvent)
 	 */
-	private void textArea_onBlur(final BlurEvent<TextArea> event)
+	private void textField_onBlur(final BlurEvent<TextField> event)
 	{
 		if(this.getLabelText().contentEquals(this.getEditor().getValue()))
 		{
@@ -110,17 +120,18 @@ public class EditableLabelTextArea
 	}
 	
 	@Override
-	protected void btnEdit_onClick(final ClickEvent<Button> event)
-	{
-		this.getEditor().setValue(this.getLabelText());
-		this.getEditor().focus();
-		this.enableEditMode();
-	}
-	
-	@Override
 	protected void btnSave_onClick(final ClickEvent<Button> event)
 	{
+		final String oldValue = this.getLabelText();
 		this.setLabelText(this.getEditor().getValue());
+		
+		this.fireChangedEvent(oldValue);
+		
+		if(this.getEditor().getValue().isBlank())
+		{
+			this.setLabelText(this.emptyValue);
+		}
+		
 		this.disableEditMode();
 	}
 	
@@ -131,16 +142,13 @@ public class EditableLabelTextArea
 	}
 	
 	@Override
-	protected void initUI(
-		final Component editIcon,
-		final Component saveIcon,
-		final Component abortIcon
-	)
+	protected void initUI()
 	{
-		super.initUI(editIcon, saveIcon, abortIcon);
+		super.initUI();
 		this.getEditor().setAutoselect(true);
-		this.getEditor().addThemeVariants(TextAreaVariant.LUMO_SMALL);
+		this.getEditor().setValue(this.emptyValue);
+		this.getEditor().addThemeVariants(TextFieldVariant.LUMO_SMALL);
+		this.getEditor().addBlurListener(this::textField_onBlur);
 		this.getEditor().setSizeUndefined();
-		this.getEditor().addBlurListener(this::textArea_onBlur);
 	}
 }

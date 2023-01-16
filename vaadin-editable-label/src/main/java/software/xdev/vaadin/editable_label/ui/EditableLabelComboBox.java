@@ -33,7 +33,7 @@ import com.vaadin.flow.data.provider.DataProvider;
  * @author JohannesRabauer
  */
 public class EditableLabelComboBox<T>
-	extends AbstractEditableLabel<Object, EditableLabelComboBox, T, ComboBox<T>>
+	extends AbstractEditableLabel<Object, EditableLabelComboBox<T>, T, ComboBox<T>>
 {
 	private T value;
 	
