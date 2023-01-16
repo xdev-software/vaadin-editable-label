@@ -15,26 +15,6 @@
  */
 package software.xdev.vaadin.editable_label.ui;
 
-/*-
- * #%L
- * Editable labels for Vaadin
- * %%
- * Copyright (C) 2023 XDEV Software
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Objects;
@@ -85,13 +65,13 @@ public class EditableLabelBigDecimalField
 	public EditableLabelBigDecimalField(final Double value, final NumberFormat numberFormatter)
 	{
 		this(numberFormatter);
-		this.setValue(new BigDecimal(value));
+		this.setValue(BigDecimal.valueOf(value));
 	}
 	
 	public EditableLabelBigDecimalField(final Double value)
 	{
 		this();
-		this.setValue(new BigDecimal(value));
+		this.setValue(BigDecimal.valueOf(value));
 	}
 	
 	@Override
