@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 XDEV Software (https://xdev.software/en)
+ * Copyright © 2023 XDEV Software (https://xdev.software)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ public class EditableLabelDatePicker
 	}
 	
 	/**
-	 * @param dateTimeFormatter used to format the selected date
+	 * @param dateTimeFormatPattern used to format the selected date
 	 */
 	public EditableLabelDatePicker(final String dateTimeFormatPattern)
 	{
@@ -66,8 +66,8 @@ public class EditableLabelDatePicker
 	
 	/**
 	 * @param value             that is first displayed in the label
-	 * @param emptyValue        that is displayed if no value is defined (at any time, now or in the future)
-	 * @param dateTimeFormatter used to format the selected date
+	 * @param emptyLabel        that is displayed if no value is defined (at any time, now or in the future)
+	 * @param dateTimeFormatPattern used to format the selected date
 	 */
 	public EditableLabelDatePicker(
 		final LocalDate value,
@@ -82,7 +82,7 @@ public class EditableLabelDatePicker
 	
 	/**
 	 * @param value             that is first displayed in the label
-	 * @param dateTimeFormatter used to format the selected date
+	 * @param dateTimeFormatPattern used to format the selected date
 	 */
 	public EditableLabelDatePicker(final LocalDate value, final String dateTimeFormatPattern)
 	{
