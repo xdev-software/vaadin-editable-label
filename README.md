@@ -1,6 +1,7 @@
 [![Published on Vaadin Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/vaadin-editable-label)
 [![Latest version](https://img.shields.io/maven-central/v/com.xdev-software/vaadin-editable-label)](https://mvnrepository.com/artifact/com.xdev-software/vaadin-editable-label)
 [![Build](https://img.shields.io/github/actions/workflow/status/xdev-software/vaadin-editable-label/checkBuild.yml?branch=develop)](https://github.com/xdev-software/vaadin-editable-label/actions/workflows/checkBuild.yml?query=branch%3Adevelop)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=xdev-software_vaadin-editable-label&metric=alert_status)](https://sonarcloud.io/dashboard?id=xdev-software_vaadin-editable-label)
 ![Vaadin 23+](https://img.shields.io/badge/Vaadin%20Platform/Flow-23+-00b4f0.svg)
 
 # vaadin-editable-label
@@ -17,7 +18,7 @@ A Vaadin Flow implementation for editable labels
 
 * Checkout the repo
 * Run ``mvn clean install``
-* Navigate into ``vaadin-addon-template-demo``
+* Navigate into ``vaadin-editable-label-demo``
 * Run ``mvn jetty:run``
 * Open http://localhost:8080
 
@@ -44,7 +45,6 @@ Before releasing:
 If the ``develop`` is ready for release, create a pull request to the ``main``-Branch and merge the changes
 
 When the release is finished do the following:
-
 * Merge the auto-generated PR (with the incremented version number) back into the ``develop``
 * Upload the generated release asset zip into the [Vaadin Directory](https://vaadin.com/directory) and update the
   component there
