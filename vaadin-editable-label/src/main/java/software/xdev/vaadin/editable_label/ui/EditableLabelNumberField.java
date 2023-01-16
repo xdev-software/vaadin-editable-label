@@ -52,7 +52,7 @@ public class EditableLabelNumberField
 	
 	/**
 	 * @param value      that is first displayed in the label
-	 * @param emptyValue that is displayed if no value is defined (at any time, now or in the future)
+	 * @param emptyLabel that is displayed if no value is defined (at any time, now or in the future)
 	 */
 	public EditableLabelNumberField(final Double value, final String emptyLabel)
 	{

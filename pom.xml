@@ -20,7 +20,7 @@
 	</organization>
 
 	<modules>
-		<module>vaadin-editable-label-component</module>
+		<module>vaadin-editable-label</module>
 		<module>vaadin-editable-label-demo</module>
 	</modules>
 
