@@ -32,7 +32,7 @@ import com.vaadin.flow.component.textfield.TextFieldVariant;
  * @author JohannesRabauer
  */
 public class EditableLabelTextField<C extends Object>
-	extends AbstractEditableLabel<C, EditableLabelTextField, String, TextField>
+	extends AbstractEditableLabel<C, EditableLabelTextField<C>, String, TextField>
 {
 	
 	public EditableLabelTextField()

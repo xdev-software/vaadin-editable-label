@@ -162,7 +162,7 @@ public abstract class AbstractEditableLabel
 	{
 		ComponentUtil.fireEvent(
 			this,
-			new AbstractField.ComponentValueChangeEvent(this, this, oldValue, true)
+			new AbstractField.ComponentValueChangeEvent<>(this, this, oldValue, true)
 		);
 	}
 	
