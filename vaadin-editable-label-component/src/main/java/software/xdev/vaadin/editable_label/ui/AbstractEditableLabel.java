@@ -40,7 +40,7 @@ import software.xdev.vaadin.editable_label.util.EditableLabelsUtil;
 
 
 public abstract class AbstractEditableLabel
-	<C, SELF extends Component, VALUE, EDIT extends Component>
+	<C, SELF extends AbstractEditableLabel<C, SELF, VALUE, EDIT>, VALUE, EDIT extends Component>
 	extends HorizontalLayout
 	implements HasValue<AbstractField.ComponentValueChangeEvent<SELF, VALUE>, VALUE>
 {
@@ -66,10 +66,12 @@ public abstract class AbstractEditableLabel
 		this.editor = editor;
 		this.emptyValue = emptyValue;
 		this.initUI(
-			VaadinIcon.PENCIL.create(),
-			VaadinIcon.CHECK.create(),
-			VaadinIcon.CLOSE.create()
 		);
+		
+		this
+			.withEditIcon(VaadinIcon.PENCIL.create())
+			.withSaveIcon(VaadinIcon.CHECK.create())
+			.withCloseIcon(VaadinIcon.CLOSE.create());
 		
 		if(!Beans.isDesignTime())
 		{
@@ -164,11 +166,25 @@ public abstract class AbstractEditableLabel
 		);
 	}
 	
-	protected void initUI(
-		final Component editIcon,
-		final Component saveIcon,
-		final Component abortIcon
-	)
+	public SELF withEditIcon(final Component editIcon)
+	{
+		this.btnEdit.setIcon(editIcon);
+		return (SELF)this;
+	}
+	
+	public SELF withSaveIcon(final Component saveIcon)
+	{
+		this.btnSave.setIcon(saveIcon);
+		return (SELF)this;
+	}
+	
+	public SELF withCloseIcon(final Component closeIcon)
+	{
+		this.btnClose.setIcon(closeIcon);
+		return (SELF)this;
+	}
+	
+	protected void initUI()
 	{
 		this.label.setText(this.emptyValue);
 		this.label.setSizeUndefined();
@@ -178,9 +194,9 @@ public abstract class AbstractEditableLabel
 		this.btnEdit.getStyle().set("margin", "0px");
 		this.btnEdit.getStyle().set("padding", "0px");
 		this.btnEdit.getStyle().set("font-size", "12px");
-		this.btnEdit.setIcon(editIcon);
 		this.btnEdit.setWidth("15px");
-		this.btnEdit.setHeight("15px");
+		this.btnEdit.setHeight("var()");
+		this.btnEdit.addClassName("xdev-editable-label-edit-button");
 		
 		this.btnSave.setVisible(false);
 		this.btnSave.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
@@ -190,7 +206,6 @@ public abstract class AbstractEditableLabel
 		final ShortcutRegistration btnSaveShortcut = this.btnSave.addClickShortcut(Key.ENTER);
 		btnSaveShortcut.setBrowserDefaultAllowed(true);
 		btnSaveShortcut.setEventPropagationAllowed(false);
-		this.btnSave.setIcon(saveIcon);
 		this.btnSave.setWidth("15px");
 		this.btnSave.setHeight("15px");
 		
@@ -202,7 +217,6 @@ public abstract class AbstractEditableLabel
 		final ShortcutRegistration btnCloseShortcut = this.btnClose.addClickShortcut(Key.ESCAPE);
 		btnCloseShortcut.setBrowserDefaultAllowed(true);
 		btnCloseShortcut.setEventPropagationAllowed(false);
-		this.btnClose.setIcon(abortIcon);
 		this.btnClose.setWidth("15px");
 		this.btnClose.setHeight("15px");
 		

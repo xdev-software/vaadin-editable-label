@@ -19,7 +19,6 @@ package software.xdev.vaadin.editable_label.ui;
 
 import com.vaadin.flow.component.BlurNotifier.BlurEvent;
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
@@ -131,13 +130,9 @@ public class EditableLabelTextArea
 	}
 	
 	@Override
-	protected void initUI(
-		final Component editIcon,
-		final Component saveIcon,
-		final Component abortIcon
-	)
+	protected void initUI()
 	{
-		super.initUI(editIcon, saveIcon, abortIcon);
+		super.initUI();
 		this.getEditor().setAutoselect(true);
 		this.getEditor().addThemeVariants(TextAreaVariant.LUMO_SMALL);
 		this.getEditor().setSizeUndefined();
