@@ -120,7 +120,7 @@ public abstract class AbstractEditableLabel
 		final ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<S, V>> listener)
 	{
 		final ComponentEventListener componentListener = (event) -> {
-			listener.valueChanged((AbstractField.ComponentValueChangeEvent)event);
+			listener.valueChanged((AbstractField.ComponentValueChangeEvent<S, V>)event);
 		};
 		return ComponentUtil.addListener(this, AbstractField.ComponentValueChangeEvent.class, componentListener);
 	}

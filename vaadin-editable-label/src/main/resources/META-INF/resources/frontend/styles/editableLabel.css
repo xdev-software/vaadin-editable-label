@@ -1,9 +1,8 @@
 .editable-label-button {
 	margin: 0;
 	padding: 0;
-	font-size: 12px;/*TODO*/
-	height: 15px;
-	width: 15px;
+	height: var(--lumo-size-xs);
+	width: var(--lumo-size-xs);
 }
 
 .editable-label-container {
