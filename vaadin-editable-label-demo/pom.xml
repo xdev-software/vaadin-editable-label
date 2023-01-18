@@ -9,8 +9,6 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>Editable labels for Vaadin - Demo</name>
-
 	<inceptionYear>2023</inceptionYear>
 
 	<organization>
