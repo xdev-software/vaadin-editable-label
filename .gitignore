@@ -111,4 +111,3 @@ ObjectStore/
 !.idea/codeStyles/Project.xml
 
 .run/*
-!.run/Run Demo.run.xml
