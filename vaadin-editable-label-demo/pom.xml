@@ -7,7 +7,7 @@
 	<groupId>com.xdev-software</groupId>
 	<artifactId>vaadin-editable-label-demo</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<inceptionYear>2023</inceptionYear>
 
@@ -34,6 +34,8 @@
 
 		<!-- Dependency-Versions -->
 		<vaadin.version>23.3.3</vaadin.version>
+
+		<org.springframework.boot.version>2.7.7</org.springframework.boot.version>
 	</properties>
 
 
@@ -46,22 +48,42 @@
 				<scope>import</scope>
 				<version>${vaadin.version}</version>
 			</dependency>
+
+			<!-- Spring Boot -->
+			<!-- This bom provides versions for ~500 dependencies -->
+			<!-- Nearly at the end so that it doesn't accidentally overwrite other versions -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${org.springframework.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-core</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.xdev-software</groupId>
 			<artifactId>vaadin-editable-label</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-core</artifactId>
+		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
@@ -69,15 +91,6 @@
 		<finalName>${project.artifactId}</finalName>
 		
 		<plugins>
-			<!-- Jetty plugin for easy testing without a server -->
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>10.0.13</version>
-				<configuration>
-					<scan>1</scan>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-maven-plugin</artifactId>
@@ -102,12 +115,9 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.3.2</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${org.springframework.boot.version}</version>
 			</plugin>
 		</plugins>
 	</build>
