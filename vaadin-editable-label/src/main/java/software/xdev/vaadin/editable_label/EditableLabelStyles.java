@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package software.xdev.vaadin.editable_label.ui;
+package software.xdev.vaadin.editable_label;
 
 /**
  * Styles for the {@link AbstractEditableLabel}
@@ -26,6 +26,8 @@ public interface EditableLabelStyles
 	
 	String CONTAINER = "editable-label-container";
 	String BUTTON = "editable-label-button";
+	String EDIT_BUTTON = "editable-label-edit-button";
+	String EDIT_BUTTON_ALWAYS_VISIBLE = "editable-label-edit-button-always-visible";
 	String LABEL = "editable-label-label";
 	String EDITOR = "editable-label-editor";
 }
