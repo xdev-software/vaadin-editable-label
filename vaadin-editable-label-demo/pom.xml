@@ -32,6 +32,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<mainClass>software.xdev.vaadin.Application</mainClass>
+
 		<!-- Dependency-Versions -->
 		<vaadin.version>23.3.3</vaadin.version>
 
@@ -89,7 +91,17 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${org.springframework.boot.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>com.vaadin</groupId>
@@ -113,11 +125,6 @@
 						<arg>-proc:none</arg>
 					</compilerArgs>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${org.springframework.boot.version}</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -147,6 +154,24 @@
 									<goal>prepare-frontend</goal>
 									<goal>build-frontend</goal>
 								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<mainClass>${mainClass}</mainClass>
+							<fork>true</fork>
+						</configuration>
+						<executions>
+							<execution>
+								<id>repackage</id>
+								<goals>
+									<goal>repackage</goal>
+								</goals>
+								<phase>package</phase>
 							</execution>
 						</executions>
 					</plugin>
