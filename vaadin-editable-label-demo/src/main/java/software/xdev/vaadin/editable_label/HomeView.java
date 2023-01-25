@@ -1,4 +1,4 @@
-package software.xdev.vaadin.editable_label.example;
+package software.xdev.vaadin.editable_label;
 
 import static java.util.Map.entry;
 
@@ -27,8 +27,6 @@ import com.vaadin.flow.component.textfield.TextAreaVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import software.xdev.vaadin.editable_label.AbstractEditableLabel;
-import software.xdev.vaadin.editable_label.EditableLabel;
 import software.xdev.vaadin.editable_label.predefined.EditableLabelBigDecimalField;
 import software.xdev.vaadin.editable_label.predefined.EditableLabelComboBox;
 import software.xdev.vaadin.editable_label.predefined.EditableLabelDatePicker;
@@ -135,7 +133,7 @@ public class HomeView extends Composite<VerticalLayout>
 		return formLayout;
 	}
 	
-	private VerticalLayout getCustomComponent()
+	private HorizontalLayout getCustomComponent()
 	{
 		final String defaultValue = "example@example.com";
 		final EditableLabel<EmailField, String> emailLabel = new EditableLabel<>(new EmailField())
@@ -168,14 +166,14 @@ public class HomeView extends Composite<VerticalLayout>
 					TimeUnit.SECONDS));
 		btnRestoreDefaultIn5s.setDisableOnClick(true);
 		
-		final HorizontalLayout hlActions = new HorizontalLayout();
-		hlActions.add(btnRestoreDefault, btnRestoreDefaultIn5s);
+		final HorizontalLayout hlButtons = new HorizontalLayout();
+		hlButtons.add(btnRestoreDefault, btnRestoreDefaultIn5s);
 		
-		final VerticalLayout vl = new VerticalLayout();
-		vl.setPadding(false);
-		vl.add(emailLabel, hlActions);
-		vl.setAlignSelf(FlexComponent.Alignment.END, hlActions);
-		return vl;
+		final HorizontalLayout hl = new HorizontalLayout();
+		hl.add(emailLabel, hlButtons);
+		hl.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+		hl.setWidthFull();
+		return hl;
 	}
 	
 	private void registerValueChangeEvent(final String source, final AbstractEditableLabel<?, ?, ?> ael)
