@@ -66,10 +66,15 @@ public class HomeView extends Composite<VerticalLayout>
 	private FormLayout getPredefinedComponents()
 	{
 		final FormLayout formLayout = new FormLayout();
-		formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep(
-			"0",
-			2,
-			FormLayout.ResponsiveStep.LabelsPosition.TOP));
+		formLayout.setResponsiveSteps(
+			new FormLayout.ResponsiveStep(
+				"0",
+				1,
+				FormLayout.ResponsiveStep.LabelsPosition.TOP),
+			new FormLayout.ResponsiveStep(
+				"800px",
+				2,
+				FormLayout.ResponsiveStep.LabelsPosition.TOP));
 		
 		// Types are required here otherwise a compile error occurs (see https://github.com/vaadin/flow/issues/7920)
 		Map.<String, AbstractEditableLabel<?, ?, ?>>ofEntries(
