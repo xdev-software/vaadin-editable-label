@@ -7,15 +7,20 @@
 	<groupId>com.xdev-software</groupId>
 	<artifactId>vaadin-editable-label-root</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
+	<properties>
+		<javaVersion>11</javaVersion>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+	</properties>
 	<packaging>pom</packaging>
 
 	<organization>
 		<name>XDEV Software</name>
-		<url>https://xdev.software/en</url>
+		<url>https://xdev.software</url>
 	</organization>
 
 	<modules>
-		<module>vaadin-editable-label-component</module>
+		<module>vaadin-editable-label</module>
 		<module>vaadin-editable-label-demo</module>
 	</modules>
 

@@ -9,8 +9,8 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Editable labels for Vaadin</name>
-	<description>Editable labels for Vaadin</description>
+	<name>Editable Labels for Vaadin</name>
+	<description>Editable Labels for Vaadin</description>
 	<url>https://github.com/xdev-software/vaadin-editable-label</url>
 
 	<scm>
@@ -22,14 +22,14 @@
 
 	<organization>
 		<name>XDEV Software</name>
-		<url>https://xdev.software/en</url>
+		<url>https://xdev.software</url>
 	</organization>
 
 	<developers>
 		<developer>
 			<name>XDEV Software</name>
 			<organization>XDEV Software</organization>
-			<url>https://xdev.software/en</url>
+			<url>https://xdev.software</url>
 		</developer>
 	</developers>
 
@@ -51,7 +51,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Dependency-Versions -->
-		<vaadin.version>23.3.3</vaadin.version>
+		<vaadin.version>23.3.6</vaadin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -112,22 +112,30 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>2.0.0</version>
+				<version>4.1</version>
+				<configuration>
+					<properties>
+						<email>${project.organization.url}</email>
+					</properties>
+					<licenseSets>
+						<licenseSet>
+							<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+							<includes>
+								<include>src/main/java/**</include>
+								<include>src/test/java/**</include>
+							</includes>
+						</licenseSet>
+					</licenseSets>
+				</configuration>
 				<executions>
 					<execution>
 						<id>first</id>
 						<goals>
-							<goal>update-file-header</goal>
+							<goal>format</goal>
 						</goals>
 						<phase>process-sources</phase>
-						<configuration>
-							<roots>
-								<root>src/main/java</root>
-								<root>src/test/java</root>
-							</roots>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
