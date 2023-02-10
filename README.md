@@ -10,11 +10,29 @@ A Vaadin Flow implementation for editable labels
 
 ![demo](assets/demo.png)
 
+This component provides a couple of elements that are displayed as simple read-only components, but can be edited with a
+simple click.
+Following components are available:
+
+* [EditableLabelTextField](./vaadin-editable-label/src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelTextField.java)
+* [EditableLabelTextArea](./vaadin-editable-label/src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelTextArea.java)
+* [EditableLabelComboBox](./vaadin-editable-label/src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelComboBox.java)
+* [EditableLabelDatePicker](./vaadin-editable-label/src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelDatePicker.java)
+* [EditableLabelNumberField](./vaadin-editable-label/src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelNumberField.java)
+* [EditableLabelBigDecimalField](./vaadin-editable-label/src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelBigDecimalField.java)
+
+It's also possible to create a custom element:
+
+```java 
+final EditableLabel<EmailField, String> emailLabel = new EditableLabel<>(new EmailField()).withValue(defaultValue);
+```
+
 ## Installation
 
 [Installation guide for the latest release](https://github.com/xdev-software/vaadin-editable-label/releases/latest#Installation)
 
 ## Run the Demo
+
 * Checkout the repo
 * Run ``mvn install && mvn -f vaadin-editable-label-demo spring-boot:run``
 * Open http://localhost:8080
