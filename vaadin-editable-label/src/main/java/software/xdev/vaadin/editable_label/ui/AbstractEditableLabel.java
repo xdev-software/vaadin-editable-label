@@ -65,8 +65,7 @@ public abstract class AbstractEditableLabel
 		super();
 		this.editor = editor;
 		this.emptyValue = emptyValue;
-		this.initUI(
-		);
+		this.initUI();
 		
 		this
 			.withEditIcon(VaadinIcon.PENCIL.create())

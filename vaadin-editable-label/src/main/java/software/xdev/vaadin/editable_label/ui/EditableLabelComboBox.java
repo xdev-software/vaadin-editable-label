@@ -127,7 +127,7 @@ public class EditableLabelComboBox<T>
 	@Override
 	protected void btnSave_onClick(final ClickEvent<Button> event)
 	{
-		this.setValue(this.value);
+		this.setValue(this.getEditor().getValue());
 		this.disableEditMode();
 	}
 	
