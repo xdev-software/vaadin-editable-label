@@ -15,9 +15,8 @@ A Vaadin Flow implementation for editable labels
 [Installation guide for the latest release](https://github.com/xdev-software/vaadin-editable-label/releases/latest#Installation)
 
 ## Run the Demo
-
 * Checkout the repo
-* Run ``mvn install && mvn -f vaadin-addon-template-demo spring-boot:run``
+* Run ``mvn install && mvn -f vaadin-editable-label-demo spring-boot:run``
 * Open http://localhost:8080
 
 <details>
@@ -33,4 +32,4 @@ If you need support as soon as possible and you can't wait for any pull request,
 See the [contributing guide](./CONTRIBUTING.md) for detailed instructions on how to get started with our project.
 
 ## Dependencies and Licenses
-View the [license of the current project](LICENSE) or the [summary including all dependencies](https://xdev-software.github.io/vaadin-addon-template/dependencies/)
+View the [license of the current project](LICENSE) or the [summary including all dependencies](https://xdev-software.github.io/vaadin-editable-label/dependencies/)
