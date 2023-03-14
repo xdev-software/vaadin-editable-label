@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 env:
   PRIMARY_MAVEN_MODULE: ${{ github.event.repository.name }}
@@ -92,7 +92,7 @@ jobs:
       with:
         tag_name: v${{ steps.version.outputs.release }}
         release_name: v${{ steps.version.outputs.release }}
-        commitish: main
+        commitish: master
         body: |
           ## [Changelog](https://github.com/xdev-software/${{ env.PRIMARY_MAVEN_MODULE }}/blob/develop/CHANGELOG.md#${{ steps.version.outputs.releasenumber }})
           See [Changelog#v${{ steps.version.outputs.release }}](https://github.com/xdev-software/${{ env.PRIMARY_MAVEN_MODULE }}/blob/develop/CHANGELOG.md#${{ steps.version.outputs.releasenumber }}) for more information.
