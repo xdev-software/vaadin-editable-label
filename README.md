@@ -31,6 +31,13 @@ final EditableLabel<EmailField, String> emailLabel = new EditableLabel<>(new Ema
 
 [Installation guide for the latest release](https://github.com/xdev-software/vaadin-editable-label/releases/latest#Installation)
 
+#### Compatibility with Vaadin
+
+| Vaadin version | Editable label version |
+| --- | --- |
+| Vaadin 24+ (latest) | ``2+`` |
+| Vaadin 23 | ``1.x`` |
+
 ## Run the Demo
 
 * Checkout the repo
