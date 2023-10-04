@@ -47,7 +47,7 @@ final EditableLabel<EmailField, String> emailLabel = new EditableLabel<>(new Ema
 <details>
   <summary>Show example</summary>
   
-  ![demo](assets/demo.gif)
+  ![demo](assets/demo.avif)
 </details>
 
 ## Support
