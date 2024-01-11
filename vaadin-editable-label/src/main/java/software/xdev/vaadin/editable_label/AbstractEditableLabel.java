@@ -53,8 +53,10 @@ import com.vaadin.flow.shared.Registration;
  * @author JR
  */
 @CssImport(value = EditableLabelStyles.LOCATION)
-public abstract class AbstractEditableLabel
-	<S extends AbstractEditableLabel<S, C, V>, C extends Component & HasSize & HasStyle & HasValue<?, V>, V>
+public abstract class AbstractEditableLabel<
+	S extends AbstractEditableLabel<S, C, V>,
+	C extends Component & HasSize & HasStyle & HasValue<?, V>,
+	V>
 	extends AbstractCompositeField<Div, S, V> // Using div because shadow root causes otherwise styling issues
 	implements
 	HasStyle,

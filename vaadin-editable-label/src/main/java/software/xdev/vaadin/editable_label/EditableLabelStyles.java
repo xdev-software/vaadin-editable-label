@@ -17,17 +17,19 @@ package software.xdev.vaadin.editable_label;
 
 /**
  * Styles for the {@link AbstractEditableLabel}
- *
- * @author JohannesRabauer
  */
-public interface EditableLabelStyles
+public final class EditableLabelStyles
 {
-	String LOCATION = "./styles/editableLabel.css";
+	private EditableLabelStyles()
+	{
+	}
 	
-	String CONTAINER = "editable-label-container";
-	String BUTTON = "editable-label-button";
-	String EDIT_BUTTON = "editable-label-edit-button";
-	String EDIT_BUTTON_ALWAYS_VISIBLE = "editable-label-edit-button-always-visible";
-	String LABEL = "editable-label-label";
-	String EDITOR = "editable-label-editor";
+	public static final String LOCATION = "./styles/editableLabel.css";
+	
+	public static final String CONTAINER = "editable-label-container";
+	public static final String BUTTON = "editable-label-button";
+	public static final String EDIT_BUTTON = "editable-label-edit-button";
+	public static final String EDIT_BUTTON_ALWAYS_VISIBLE = "editable-label-edit-button-always-visible";
+	public static final String LABEL = "editable-label-label";
+	public static final String EDITOR = "editable-label-editor";
 }

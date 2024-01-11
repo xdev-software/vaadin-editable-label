@@ -63,6 +63,7 @@ public class HomeView extends Composite<VerticalLayout>
 			this.valueChangeEventTa);
 	}
 	
+	@SuppressWarnings("checkstyle:MagicNumber")
 	private FormLayout getPredefinedComponents()
 	{
 		final FormLayout formLayout = new FormLayout();
