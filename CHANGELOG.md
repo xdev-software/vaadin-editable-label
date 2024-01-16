@@ -1,3 +1,7 @@
+## 2.0.1
+* Replaced deprecated ``Label``-Vaadin component with ``Span``
+* Updated dependencies
+
 ## 2.0.0
 ⚠️<i>This release contains breaking changes</i>
 
