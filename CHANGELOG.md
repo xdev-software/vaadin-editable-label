@@ -1,4 +1,5 @@
 ## 2.0.1
+* ⚠️ GroupId changed from ``com.xdev-software`` to ``software.xdev``
 * Replaced deprecated ``Label``-Vaadin component with ``Span``
 * Updated dependencies
 
