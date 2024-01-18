@@ -35,7 +35,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.shared.Registration;
 
@@ -53,8 +53,10 @@ import com.vaadin.flow.shared.Registration;
  * @author JR
  */
 @CssImport(value = EditableLabelStyles.LOCATION)
-public abstract class AbstractEditableLabel
-	<S extends AbstractEditableLabel<S, C, V>, C extends Component & HasSize & HasStyle & HasValue<?, V>, V>
+public abstract class AbstractEditableLabel<
+	S extends AbstractEditableLabel<S, C, V>,
+	C extends Component & HasSize & HasStyle & HasValue<?, V>,
+	V>
 	extends AbstractCompositeField<Div, S, V> // Using div because shadow root causes otherwise styling issues
 	implements
 	HasStyle,
@@ -66,7 +68,7 @@ public abstract class AbstractEditableLabel
 	protected final Button btnEdit = new Button(VaadinIcon.PENCIL.create());
 	protected final Button btnSave = new Button(VaadinIcon.CHECK.create());
 	protected final Button btnClose = new Button(VaadinIcon.CLOSE.create());
-	protected final Label label = new Label();
+	protected final Span label = new Span();
 	
 	protected final C editor;
 	
