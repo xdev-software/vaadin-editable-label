@@ -5,7 +5,6 @@
 ![Vaadin 24+](https://img.shields.io/badge/Vaadin%20Platform/Flow-24+-00b4f0)
 
 # vaadin-editable-label
-
 A Vaadin Flow implementation for editable labels
 
 ![demo](assets/demo.png)
@@ -28,7 +27,6 @@ final EditableLabel<EmailField, String> emailLabel = new EditableLabel<>(new Ema
 ```
 
 ## Installation
-
 [Installation guide for the latest release](https://github.com/xdev-software/vaadin-editable-label/releases/latest#Installation)
 
 #### Compatibility with Vaadin
@@ -39,7 +37,6 @@ final EditableLabel<EmailField, String> emailLabel = new EditableLabel<>(new Ema
 | Vaadin 23 | ``1.x`` |
 
 ## Run the Demo
-
 * Checkout the repo
 * Run ``mvn install && mvn -f vaadin-editable-label-demo spring-boot:run``
 * Open http://localhost:8080

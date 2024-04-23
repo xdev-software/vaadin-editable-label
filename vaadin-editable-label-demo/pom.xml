@@ -9,8 +9,6 @@
 	<version>2.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<inceptionYear>2023</inceptionYear>
-
 	<organization>
 		<name>XDEV Software</name>
 		<url>https://xdev.software</url>
@@ -28,7 +26,7 @@
 		<!-- Dependency-Versions -->
 		<vaadin.version>24.3.9</vaadin.version>
 
-		<org.springframework.boot.version>3.2.4</org.springframework.boot.version>
+		<org.springframework.boot.version>3.2.5</org.springframework.boot.version>
 	</properties>
 
 	<dependencyManagement>
@@ -56,12 +54,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>software.xdev</groupId>
-			<artifactId>vaadin-editable-label</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-core</artifactId>
 			<exclusions>
@@ -71,6 +63,11 @@
 					<artifactId>copilot</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>software.xdev</groupId>
+			<artifactId>vaadin-editable-label</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<!-- Spring -->
