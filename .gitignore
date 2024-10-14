@@ -103,3 +103,5 @@ vite.generated.ts
 .idea/codeStyles/*
 !.idea/codeStyles/codeStyleConfig.xml
 !.idea/codeStyles/Project.xml
+
+.run/*
