@@ -9,8 +9,8 @@
 	<version>2.1.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>vaadin-editable-label</name>
-	<description>vaadin-editable-label</description>
+	<name>Editable Labels for Vaadin</name>
+	<description>Editable Labels for Vaadin</description>
 	<url>https://github.com/xdev-software/vaadin-editable-label</url>
 
 	<scm>

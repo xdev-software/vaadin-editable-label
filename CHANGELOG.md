@@ -1,3 +1,7 @@
+## 2.1.1
+* Fix naming so that Vaadin Directory sync works [#318](https://github.com/xdev-software/vaadin-addon-template/issues/318)
+* Updated dependencies
+
 ## 2.1.0
 * Updated to Vaadin 24.4
 
