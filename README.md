@@ -4,7 +4,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=xdev-software_vaadin-editable-label&metric=alert_status)](https://sonarcloud.io/dashboard?id=xdev-software_vaadin-editable-label)
 ![Vaadin 24+](https://img.shields.io/badge/Vaadin%20Platform/Flow-24+-00b4f0)
 
-# vaadin-editable-label
+# Editable Labels for Vaadin
 A Vaadin Flow implementation for editable labels
 
 ![demo](assets/demo.png)
@@ -34,6 +34,9 @@ final EditableLabel<EmailField, String> emailLabel = new EditableLabel<>(new Ema
 | --- | --- |
 | Vaadin 24+ (latest) | ``2+`` |
 | Vaadin 23 | ``1.x`` |
+
+### Spring-Boot
+* You may have to include ``software/xdev`` inside [``vaadin.allowed-packages``](https://vaadin.com/docs/latest/integrations/spring/configuration#configure-the-scanning-of-packages)
 
 ## Run the Demo
 * Checkout the repo

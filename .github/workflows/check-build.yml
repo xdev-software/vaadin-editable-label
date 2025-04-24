@@ -26,6 +26,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     strategy:
       matrix:
@@ -73,6 +74,7 @@ jobs:
   checkstyle:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' || !startsWith(github.head_ref, 'renovate/') }}
+    timeout-minutes: 15
 
     strategy:
       matrix:
@@ -95,6 +97,7 @@ jobs:
   pmd:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' || !startsWith(github.head_ref, 'renovate/') }}
+    timeout-minutes: 15
 
     strategy:
       matrix:
@@ -124,7 +127,4 @@ jobs:
         name: pmd-report
         if-no-files-found: ignore
         path: |
-          target/site/*.html
-          target/site/css/**
-          target/site/images/logos/maven-feather.png
-          target/site/images/external.png
+          target/reports/**
