@@ -17,6 +17,9 @@ package software.xdev.vaadin.editable_label.predefined;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.function.Consumer;
 
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -33,6 +36,8 @@ import software.xdev.vaadin.editable_label.AbstractEditableLabel;
 public class EditableLabelDatePicker
 	extends AbstractEditableLabel<EditableLabelDatePicker, DatePicker, LocalDate>
 {
+	protected static final Map<String, DateTimeFormatter> CACHE_DTF = Collections.synchronizedMap(new WeakHashMap<>());
+	
 	public EditableLabelDatePicker()
 	{
 		this(new DatePicker());
@@ -60,7 +65,9 @@ public class EditableLabelDatePicker
 		final DatePicker.DatePickerI18n i18n = this.editor.getI18n();
 		if(i18n != null && !i18n.getDateFormats().isEmpty())
 		{
-			this.withLabelGenerator(DateTimeFormatter.ofPattern(i18n.getDateFormats().get(0))::format);
+			final DateTimeFormatter dtf =
+				CACHE_DTF.computeIfAbsent(i18n.getDateFormats().get(0), DateTimeFormatter::ofPattern);
+			this.withLabelGenerator(dtf::format);
 		}
 		return this.self();
 	}
