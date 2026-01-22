@@ -1,3 +1,6 @@
+# 3.0.0
+* Updated to Vaadin 25
+
 # 2.1.3
 * Cache `DateTimeFormatter` if possible
 * Updated dependencies
