@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1769071289936">
+    <module artifactId="vaadin-editable-label" groupId="software.xdev" version="3.0.0"/>
+    <files>
+        <file path="src/main/java/software/xdev/vaadin/editable_label/AbstractEditableLabel.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/editable_label/EditableLabel.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/editable_label/EditableLabelStyles.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelBigDecimalField.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelComboBox.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelDatePicker.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelNumberField.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelTextArea.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/editable_label/predefined/EditableLabelTextField.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
