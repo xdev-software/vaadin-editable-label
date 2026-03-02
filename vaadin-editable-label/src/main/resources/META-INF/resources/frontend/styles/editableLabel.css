@@ -1,0 +1,20 @@
+.editable-label-container {
+	display: flex;
+	align-items: center;
+}
+
+.editable-label-button {
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+.editable-label-edit-button {
+    display: none;
+    height: var(--lumo-size-xs);
+    width: var(--lumo-size-xs);
+}
+
+.editable-label-container:hover>.editable-label-edit-button, .editable-label-edit-button-always-visible {
+    display: block;
+}
