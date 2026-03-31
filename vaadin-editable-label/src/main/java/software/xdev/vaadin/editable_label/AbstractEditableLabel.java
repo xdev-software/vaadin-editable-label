@@ -426,7 +426,7 @@ public abstract class AbstractEditableLabel<
 		return (S)this;
 	}
 	
-	protected static class EditModeChangedEvent
+	public static class EditModeChangedEvent
 		<S extends AbstractEditableLabel<S, C, V>, C extends Component & HasSize & HasStyle & HasValue<?, V>, V>
 		extends ComponentEvent<S>
 	{
