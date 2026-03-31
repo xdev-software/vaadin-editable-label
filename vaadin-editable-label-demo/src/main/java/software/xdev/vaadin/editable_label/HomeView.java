@@ -217,7 +217,7 @@ public class HomeView extends Composite<VerticalLayout>
 			this.emoji = emoji;
 		}
 		
-		public String getEmoji()
+		String getEmoji()
 		{
 			return this.emoji;
 		}
